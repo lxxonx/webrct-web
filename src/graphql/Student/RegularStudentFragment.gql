@@ -1,0 +1,8 @@
+fragment RegularStudent on Student {
+  id
+  username
+  firstname
+  lastname
+  birthYear
+  leftClass
+}
