@@ -1,7 +1,10 @@
+import { useReactiveVar } from "@apollo/client";
 import { styled } from "@mui/system";
 import Head from "next/head";
 import Link from "next/link";
+import { isLoggedInVar } from "../apollo/localstate";
 import Layout from "../components/Layout";
+import Login from "../components/Login";
 
 const HomeMenu = styled("div")`
   padding: 12px;
@@ -10,17 +13,29 @@ const HomeMenu = styled("div")`
 `;
 
 export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>home</title>
-      </Head>
-      <Layout>
-        <HomeMenu>
-          <Link href="/login">login</Link>
-          <Link href="/chat">chat</Link>
-        </HomeMenu>
-      </Layout>
-    </>
-  );
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  if (isLoggedIn) {
+    return (
+      <>
+        <Head>
+          <title>Home</title>
+        </Head>
+        <Layout>
+          <HomeMenu>
+            <Link href="/login">login</Link>
+            <Link href="/chat">chat</Link>
+          </HomeMenu>
+        </Layout>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Head>
+          <title>Login</title>
+        </Head>
+        <Login />
+      </>
+    );
+  }
 }
