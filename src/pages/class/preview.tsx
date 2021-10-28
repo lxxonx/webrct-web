@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
-import Layout from "../components/Layout";
+import withAuth from "../../utils/withAuth";
 
 interface Props {}
 
 function preview({}: Props): ReactElement {
-  return <Layout>preview</Layout>;
+  return <>preview</>;
 }
 
-export default preview;
+export default withAuth(preview);

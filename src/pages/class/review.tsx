@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
-import Layout from "../components/Layout";
+import withAuth from "../../utils/withAuth";
 
 interface Props {}
 
 function review({}: Props): ReactElement {
-  return <Layout>review</Layout>;
+  return <>review</>;
 }
 
-export default review;
+export default withAuth(review);

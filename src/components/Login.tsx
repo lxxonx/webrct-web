@@ -8,6 +8,7 @@ import {
 } from "../generated/graphql";
 import Link from "next/link";
 import { Typography } from "@mui/material";
+import { useRouter } from "next/dist/client/router";
 const Form = styled("form")`
   display: flex;
   flex-direction: column;
@@ -25,6 +26,7 @@ type FormInputs = {
 interface Props {}
 
 function Login({}: Props): ReactElement {
+  const router = useRouter();
   const [studentLoginMutation] = useStudentLoginMutation();
   const [tutorLoginMutation] = useTutorLoginMutation();
 
@@ -46,7 +48,8 @@ function Login({}: Props): ReactElement {
           username,
           password,
         },
-        update: (_, { data }) => {
+        update: (_, { data, errors }) => {
+          console.log(errors);
           if (data?.loginStudent) {
             isLoggedInVar(true);
           }
@@ -94,6 +97,11 @@ function Login({}: Props): ReactElement {
         <button type="button" onClick={() => setStudent(!isStudent)}>
           {isStudent ? "are you tutor?" : "are you student?"}
         </button>
+        {isStudent && (
+          <button type="button" onClick={() => router.push("/student/create")}>
+            create user
+          </button>
+        )}
         <button type="submit">login</button>
       </Form>
     </>

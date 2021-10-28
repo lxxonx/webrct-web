@@ -1,8 +1,20 @@
+import { styled } from "@mui/system";
 import React, { ReactElement } from "react";
 import { useStream } from "../../context/StreamProvider";
 
 interface Props {}
 
+const Container = styled("div")`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 30vh;
+  width: 100%;
+`;
+const VideoWrapper = styled("div")`
+  display: flex;
+  height: 100%;
+`;
 function Video({}: Props): ReactElement {
   const {
     userVideo,
@@ -15,74 +27,66 @@ function Video({}: Props): ReactElement {
     leaveCall,
     toggleAudio,
   } = useStream();
-  const youtubeId = "kTJi9YpmE3M";
   return (
-    <div>
-      {/* {youtubeId && (
-        <iframe
-          width="100%"
-          height="320"
-          src={`https://www.youtube.com/embed/${youtubeId}`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          title="Embedded youtube"
-        />
-      )} */}
-      {userVideo && (
-        <video
-          playsInline
-          autoPlay
-          style={{ width: "100%", height: "320px" }}
-          ref={userVideo}
-          className="myvid"
-        ></video>
-      )}
-      {callAccepted && !callEnded ? (
-        <button
-          onClick={() => {
-            leaveCall();
-          }}
-        >
-          Hang Up
-        </button>
-      ) : (
-        <button
-          onClick={() => {
-            callUser();
-          }}
-        >
-          Call
-        </button>
-      )}
-      <button
-        onClick={() => {
-          toggleAudio();
-        }}
-      >
-        mute
-      </button>
-      {callReceived && (
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <Container>
+      <VideoWrapper>
+        {userVideo && (
+          <video
+            playsInline
+            autoPlay
+            style={{ width: "100%", height: "100%" }}
+            ref={userVideo}
+            className="myvid"
+          ></video>
+        )}
+        {peerVideo && (
+          <video
+            playsInline
+            autoPlay
+            style={{ width: "100%", height: "100%" }}
+            className="peervid"
+            ref={peerVideo}
+          ></video>
+        )}
+      </VideoWrapper>
+      <div>
+        {callAccepted && !callEnded ? (
           <button
             onClick={() => {
-              answerCall();
+              leaveCall();
             }}
           >
-            Answer
+            Hang Up
           </button>
-        </div>
-      )}
-      {peerVideo && (
-        <video
-          playsInline
-          autoPlay
-          style={{ width: "100%", height: "320px" }}
-          className="peervid"
-          ref={peerVideo}
-        ></video>
-      )}
-    </div>
+        ) : (
+          <button
+            onClick={() => {
+              callUser();
+            }}
+          >
+            Call
+          </button>
+        )}
+        <button
+          onClick={() => {
+            toggleAudio();
+          }}
+        >
+          mute
+        </button>
+        {callReceived && (
+          <div style={{ display: "flex", justifyContent: "space-around" }}>
+            <button
+              onClick={() => {
+                answerCall();
+              }}
+            >
+              Answer
+            </button>
+          </div>
+        )}
+      </div>
+    </Container>
   );
 }
 

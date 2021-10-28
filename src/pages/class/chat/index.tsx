@@ -1,13 +1,13 @@
 import React, { ReactElement } from "react";
-import { useGetManyClassesByTutorQuery } from "../../generated/graphql";
+import { useGetManyClassesByTutorQuery } from "../../../generated/graphql";
 import Link from "next/link";
-import Layout from "../../components/Layout";
+import withAuth from "../../../utils/withAuth";
 interface Props {}
 
 function Stream({}: Props): ReactElement {
   const { data } = useGetManyClassesByTutorQuery();
   return (
-    <Layout>
+    <div>
       <div>chat list</div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {data?.getManyClassesByTutor.map((e) => (
@@ -16,8 +16,8 @@ function Stream({}: Props): ReactElement {
           </Link>
         ))}
       </div>
-    </Layout>
+    </div>
   );
 }
 
-export default Stream;
+export default withAuth(Stream);

@@ -1,0 +1,20 @@
+mutation StudentCreate(
+  $username: String!
+  $password: String!
+  $birthYear: Float!
+  $firstname: String!
+  $lastname: String
+) {
+  createStudent(
+    newStudentData: {
+      username: $username
+      password: $password
+      birthYear: $birthYear
+      firstname: $firstname
+      lastname: $lastname
+    }
+  ) {
+    id
+    username
+  }
+}

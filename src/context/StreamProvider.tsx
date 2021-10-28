@@ -51,14 +51,11 @@ function StreamProvider({ children }: StreamProps): ReactElement {
   const userVideo = useRef<HTMLVideoElement>({} as HTMLVideoElement);
   const connectionRef = useRef<Instance>({} as Instance);
   useEffect(() => {
-    const s: Socket = io(
-      "ec2-52-79-227-57.ap-northeast-2.compute.amazonaws.com/stream",
-      { withCredentials: true }
-    );
+    const s: Socket = io(process.env.NEXT_PUBLIC_HOST + "/stream", {
+      withCredentials: true,
+    });
     setSocket(s);
     s.on("call-init", ({ signal, name }) => {
-      console.log("call init");
-      console.log(signal, name);
       setCallReceived(true);
       setPeerData({ signal, name });
     });

@@ -5,12 +5,12 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 import { HttpLink } from "@apollo/client/link/http";
 
 const httpLink = new HttpLink({
-  uri: "http://ec2-52-79-227-57.ap-northeast-2.compute.amazonaws.com/graphql",
+  uri: process.env.NEXT_PUBLIC_HOST + "/graphql",
   credentials: "include",
 });
 const wsLink = process.browser
   ? new WebSocketLink({
-      uri: "ws://ec2-52-79-227-57.ap-northeast-2.compute.amazonaws.com/graphql",
+      uri: process.env.NEXT_PUBLIC_WS_HOST + "/graphql",
       options: {
         reconnect: true,
       },
