@@ -12,7 +12,7 @@ const withAuth = (WrappedComponent: NextComponentType) => {
       const router = useRouter();
       const isLoggedIn = useReactiveVar(isLoggedInVar);
       if (!isLoggedIn) {
-        router.replace(`/`);
+        router.replace(`/login`);
         return null;
       }
       if (router.pathname.startsWith("/class")) {

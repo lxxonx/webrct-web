@@ -6,6 +6,7 @@ import { useStudentCreateMutation } from "../../generated/graphql";
 import { isLoggedInVar } from "../../apollo/localstate";
 import { useRouter } from "next/dist/client/router";
 import withNotAuth from "../../utils/withNotAuth";
+import NormalLayout from "../../components/NormalLayout";
 const Form = styled("form")`
   display: flex;
   flex-direction: column;
@@ -56,7 +57,7 @@ function Create({}: Props): ReactElement {
     });
   };
   return (
-    <div>
+    <NormalLayout>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h6">create user</Typography>
         <input
@@ -105,7 +106,7 @@ function Create({}: Props): ReactElement {
         {errors.lastname && <p>{errors.lastname.message}</p>}
         <button type="submit">create user</button>
       </Form>
-    </div>
+    </NormalLayout>
   );
 }
 

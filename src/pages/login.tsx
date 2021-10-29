@@ -6,9 +6,10 @@ import {
   useStudentLoginMutation,
   useTutorLoginMutation,
 } from "../generated/graphql";
-import Link from "next/link";
 import { Typography } from "@mui/material";
 import { useRouter } from "next/dist/client/router";
+import withNotAuth from "../utils/withNotAuth";
+import NormalLayout from "../components/NormalLayout";
 const Form = styled("form")`
   display: flex;
   flex-direction: column;
@@ -72,7 +73,7 @@ function Login({}: Props): ReactElement {
   };
 
   return (
-    <>
+    <NormalLayout>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h6">
           {isStudent ? "Student Login" : "Tutor Login"}
@@ -104,8 +105,8 @@ function Login({}: Props): ReactElement {
         )}
         <button type="submit">login</button>
       </Form>
-    </>
+    </NormalLayout>
   );
 }
 
-export default Login;
+export default withNotAuth(Login);

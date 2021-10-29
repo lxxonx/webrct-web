@@ -6,6 +6,7 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DuoIcon from "@mui/icons-material/Duo";
 import { Typography } from "@mui/material";
 import { useLogoutMutation } from "../generated/graphql";
@@ -110,6 +111,9 @@ function ClassLayout({ children }: Props): ReactElement {
         }
       >
         <RouteContainer>
+          <IconLink href="/" open={open} name="back">
+            <ArrowBackIcon style={{ color: "white" }} />
+          </IconLink>
           <IconLink href="/class/" open={open} name="home">
             <HomeIcon style={{ color: "white" }} />
           </IconLink>
