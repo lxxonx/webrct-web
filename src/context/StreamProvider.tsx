@@ -80,7 +80,6 @@ function StreamProvider({ children }: StreamProps): ReactElement {
       });
     return () => {};
   }, []);
-
   const toggleAudio = () => {
     if (stream) {
       stream
@@ -88,13 +87,11 @@ function StreamProvider({ children }: StreamProps): ReactElement {
         .forEach((track) => (track.enabled = !track.enabled));
     }
   };
-
   const stopStream = () => {
     if (stream) {
       stream.getTracks().forEach((track) => track.stop());
     }
   };
-
   const answerCall = async () => {
     setCallAccepted(true);
     const peer = new Peer({ initiator: false, trickle: false, stream });
