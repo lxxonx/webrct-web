@@ -1,7 +1,7 @@
 import { styled } from "@mui/system";
 import React, { ReactElement, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { isLoggedInVar } from "../apollo/localstate";
+import { isLoggedInVar, meVar } from "../apollo/localstate";
 import {
   useStudentLoginMutation,
   useTutorLoginMutation,
@@ -52,6 +52,7 @@ function Login({}: Props): ReactElement {
         update: (_, { data, errors }) => {
           console.log(errors);
           if (data?.loginStudent) {
+            meVar(data.loginStudent);
             isLoggedInVar(true);
           }
         },
@@ -64,7 +65,9 @@ function Login({}: Props): ReactElement {
         },
         update: (_, { data, errors }) => {
           console.log(errors);
+          console.log(data);
           if (data?.loginTutor) {
+            meVar(data.loginTutor);
             isLoggedInVar(true);
           }
         },

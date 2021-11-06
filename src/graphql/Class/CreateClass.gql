@@ -1,0 +1,5 @@
+mutation CreateClass($schedule: DateTime!) {
+  createClass(schedule: $schedule) {
+    schedule
+  }
+}

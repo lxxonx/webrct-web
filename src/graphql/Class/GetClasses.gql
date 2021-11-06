@@ -1,0 +1,6 @@
+query GetClasses($monday: DateTime!) {
+  getManyClasses(monday: $monday) {
+    id
+    schedule
+  }
+}

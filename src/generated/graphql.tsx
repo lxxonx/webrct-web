@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
-import * as React from 'react';
 import * as Apollo from '@apollo/client';
+import * as React from 'react';
 import * as ApolloReactComponents from '@apollo/client/react/components';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -30,6 +30,12 @@ export type Class = {
   tutor: Tutor;
   tutorId: Scalars['Float'];
   videoUrl?: Maybe<Scalars['String']>;
+};
+
+export type GetManyTutorsInput = {
+  saved?: Maybe<Scalars['Boolean']>;
+  skip?: Maybe<Scalars['Float']>;
+  take?: Maybe<Scalars['Float']>;
 };
 
 export type LoginInput = {
@@ -93,10 +99,22 @@ export type NewUserInput = {
 
 export type Query = {
   __typename?: 'Query';
+  getManyClasses: Array<Class>;
   getManyClassesByTutor: Array<Class>;
+  getManyTutors: Array<Tutor>;
   getStudentById: Student;
   getTutorById: Tutor;
   me: Tutor;
+};
+
+
+export type QueryGetManyClassesArgs = {
+  monday: Scalars['DateTime'];
+};
+
+
+export type QueryGetManyTutorsArgs = {
+  getManyTutorsInput: GetManyTutorsInput;
 };
 
 
@@ -135,6 +153,20 @@ export type Tutor = {
   username: Scalars['String'];
 };
 
+export type CreateClassMutationVariables = Exact<{
+  schedule: Scalars['DateTime'];
+}>;
+
+
+export type CreateClassMutation = { __typename?: 'Mutation', createClass: { __typename?: 'Class', schedule: any } };
+
+export type GetClassesQueryVariables = Exact<{
+  monday: Scalars['DateTime'];
+}>;
+
+
+export type GetClassesQuery = { __typename?: 'Query', getManyClasses: Array<{ __typename?: 'Class', id: string, schedule: any }> };
+
 export type GetManyClassesByTutorQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -160,6 +192,15 @@ export type StudentLoginMutationVariables = Exact<{
 
 
 export type StudentLoginMutation = { __typename?: 'Mutation', loginStudent: { __typename?: 'Student', id: string, username: string, firstname: string, lastname?: string | null | undefined, birthYear: number, leftClass: number } };
+
+export type GetManyTutorsQueryVariables = Exact<{
+  take?: Maybe<Scalars['Float']>;
+  saved?: Maybe<Scalars['Boolean']>;
+  skip?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type GetManyTutorsQuery = { __typename?: 'Query', getManyTutors: Array<{ __typename?: 'Tutor', id: string, username: string, firstname: string, lastname?: string | null | undefined, birthYear: number }> };
 
 export type RegularTutorFragment = { __typename?: 'Tutor', id: string, username: string, firstname: string, lastname?: string | null | undefined, birthYear: number };
 
@@ -200,6 +241,87 @@ export const RegularTutorFragmentDoc = gql`
   birthYear
 }
     `;
+export const CreateClassDocument = gql`
+    mutation CreateClass($schedule: DateTime!) {
+  createClass(schedule: $schedule) {
+    schedule
+  }
+}
+    `;
+export type CreateClassMutationFn = Apollo.MutationFunction<CreateClassMutation, CreateClassMutationVariables>;
+export type CreateClassComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateClassMutation, CreateClassMutationVariables>, 'mutation'>;
+
+    export const CreateClassComponent = (props: CreateClassComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateClassMutation, CreateClassMutationVariables> mutation={CreateClassDocument} {...props} />
+    );
+    
+
+/**
+ * __useCreateClassMutation__
+ *
+ * To run a mutation, you first call `useCreateClassMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateClassMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createClassMutation, { data, loading, error }] = useCreateClassMutation({
+ *   variables: {
+ *      schedule: // value for 'schedule'
+ *   },
+ * });
+ */
+export function useCreateClassMutation(baseOptions?: Apollo.MutationHookOptions<CreateClassMutation, CreateClassMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateClassMutation, CreateClassMutationVariables>(CreateClassDocument, options);
+      }
+export type CreateClassMutationHookResult = ReturnType<typeof useCreateClassMutation>;
+export type CreateClassMutationResult = Apollo.MutationResult<CreateClassMutation>;
+export type CreateClassMutationOptions = Apollo.BaseMutationOptions<CreateClassMutation, CreateClassMutationVariables>;
+export const GetClassesDocument = gql`
+    query GetClasses($monday: DateTime!) {
+  getManyClasses(monday: $monday) {
+    id
+    schedule
+  }
+}
+    `;
+export type GetClassesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetClassesQuery, GetClassesQueryVariables>, 'query'> & ({ variables: GetClassesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const GetClassesComponent = (props: GetClassesComponentProps) => (
+      <ApolloReactComponents.Query<GetClassesQuery, GetClassesQueryVariables> query={GetClassesDocument} {...props} />
+    );
+    
+
+/**
+ * __useGetClassesQuery__
+ *
+ * To run a query within a React component, call `useGetClassesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetClassesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetClassesQuery({
+ *   variables: {
+ *      monday: // value for 'monday'
+ *   },
+ * });
+ */
+export function useGetClassesQuery(baseOptions: Apollo.QueryHookOptions<GetClassesQuery, GetClassesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetClassesQuery, GetClassesQueryVariables>(GetClassesDocument, options);
+      }
+export function useGetClassesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetClassesQuery, GetClassesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetClassesQuery, GetClassesQueryVariables>(GetClassesDocument, options);
+        }
+export type GetClassesQueryHookResult = ReturnType<typeof useGetClassesQuery>;
+export type GetClassesLazyQueryHookResult = ReturnType<typeof useGetClassesLazyQuery>;
+export type GetClassesQueryResult = Apollo.QueryResult<GetClassesQuery, GetClassesQueryVariables>;
 export const GetManyClassesByTutorDocument = gql`
     query GetManyClassesByTutor {
   getManyClassesByTutor {
@@ -330,6 +452,49 @@ export function useStudentLoginMutation(baseOptions?: Apollo.MutationHookOptions
 export type StudentLoginMutationHookResult = ReturnType<typeof useStudentLoginMutation>;
 export type StudentLoginMutationResult = Apollo.MutationResult<StudentLoginMutation>;
 export type StudentLoginMutationOptions = Apollo.BaseMutationOptions<StudentLoginMutation, StudentLoginMutationVariables>;
+export const GetManyTutorsDocument = gql`
+    query GetManyTutors($take: Float, $saved: Boolean, $skip: Float) {
+  getManyTutors(getManyTutorsInput: {take: $take, saved: $saved, skip: $skip}) {
+    ...RegularTutor
+  }
+}
+    ${RegularTutorFragmentDoc}`;
+export type GetManyTutorsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<GetManyTutorsQuery, GetManyTutorsQueryVariables>, 'query'>;
+
+    export const GetManyTutorsComponent = (props: GetManyTutorsComponentProps) => (
+      <ApolloReactComponents.Query<GetManyTutorsQuery, GetManyTutorsQueryVariables> query={GetManyTutorsDocument} {...props} />
+    );
+    
+
+/**
+ * __useGetManyTutorsQuery__
+ *
+ * To run a query within a React component, call `useGetManyTutorsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetManyTutorsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetManyTutorsQuery({
+ *   variables: {
+ *      take: // value for 'take'
+ *      saved: // value for 'saved'
+ *      skip: // value for 'skip'
+ *   },
+ * });
+ */
+export function useGetManyTutorsQuery(baseOptions?: Apollo.QueryHookOptions<GetManyTutorsQuery, GetManyTutorsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetManyTutorsQuery, GetManyTutorsQueryVariables>(GetManyTutorsDocument, options);
+      }
+export function useGetManyTutorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetManyTutorsQuery, GetManyTutorsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetManyTutorsQuery, GetManyTutorsQueryVariables>(GetManyTutorsDocument, options);
+        }
+export type GetManyTutorsQueryHookResult = ReturnType<typeof useGetManyTutorsQuery>;
+export type GetManyTutorsLazyQueryHookResult = ReturnType<typeof useGetManyTutorsLazyQuery>;
+export type GetManyTutorsQueryResult = Apollo.QueryResult<GetManyTutorsQuery, GetManyTutorsQueryVariables>;
 export const TutorLoginDocument = gql`
     mutation TutorLogin($username: String!, $password: String!) {
   loginTutor(loginInput: {username: $username, password: $password}) {

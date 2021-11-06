@@ -1,0 +1,7 @@
+query GetManyTutors($take: Float, $saved: Boolean, $skip: Float) {
+  getManyTutors(
+    getManyTutorsInput: { take: $take, saved: $saved, skip: $skip }
+  ) {
+    ...RegularTutor
+  }
+}
